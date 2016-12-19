@@ -1,0 +1,16 @@
+[uwsgi]
+# To use uwsgi in conjunction with nginx speaking uwsgi over
+# the socket, use this one (for daemon as well).
+socket = <API_IP>:<API_PORT>
+# To test standalone uwsgi server speaking http, use this one
+#http-socket = <API_IP>:<API_PORT>
+# To run uwsgi behind a remote nginx load balancer, use this one
+#socket = :<API_PORT>
+chdir = <PARENT_PATH>/angular2-flask-demo/demo_api
+venv = <PARENT_PATH>/angular2-flask-demo/demo_api/venv_demo
+pyhome = <PARENT_PATH>/angular2-flask-demo/demo_api/venv_demo
+module = wsgi
+callable = APP
+processes = 4
+threads = 2
+master = true

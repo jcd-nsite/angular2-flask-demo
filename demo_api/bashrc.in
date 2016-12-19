@@ -1,0 +1,3 @@
+APPDIR=<PARENT_DIR>
+export DEMOAPPHOME=$APPDIR/angular2-flask-demo/demo_api
+export PYTHONPATH="$APPDIR:$APPDIR/angular2-flask-demo/demo_api"

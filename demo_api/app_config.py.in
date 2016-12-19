@@ -1,0 +1,33 @@
+# coding: utf-8
+
+import os
+import pylibmc
+
+# Set up memcached client
+MC = pylibmc.Client(servers=['127.0.0.1'], binary=True, behaviors={'tcp_nodelay': True, 'ketama': True})
+
+# API URL http[s]://HOSTNAME:PORT/root
+API_URL = 'https://<API_HOST>:<API_IP>/api'
+
+WEB_URL = 'https://<WEB_HOST>:<API_IP>/demo'
+
+# Path to server log
+LOG_PATH = '/var/log/demo_api_server.log'
+
+# Allow stack traces to be printed in the log file? True | False
+PROPAGATE_EXCEPTIONS = True
+
+# Should we pretty print json or not? True | False
+PRETTY_PRINT_JSON = True
+
+# What Debug Level do we want to use?
+DEBUG_LEVEL = 'INFO'
+
+API_USERS = {
+    'demo': 'demo_test',
+    }
+
+# Memcache Time out
+SESSION_TIMEOUT = 300
+MC_TIMEOUT = 300 # seconds
+MC_PREFIX = 'demo_'

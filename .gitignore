@@ -1,0 +1,17 @@
+gnore editor temporary files
+# vi
+*.sw?
+# emacs
+*~
+.#*
+
+# Ignore Python virtualenv stuff
+# use "pip freeze > requirements.txt" to get requirements and
+# use "pip install -r requirements.txt" to make sure they get installed
+venv*
+
+# This project .in and generated files
+demo_api/app_config.py
+demo_api/uwsgi.ini
+demo_api/daemon/demo_api
+demo_api/bashrc

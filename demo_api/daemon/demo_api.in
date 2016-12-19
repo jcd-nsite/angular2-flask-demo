@@ -1,0 +1,45 @@
+#!/bin/sh
+
+# Quick start-stop-daemon example, derived from Debian /etc/init.d/ssh
+
+NAME=demo_api
+PIDFILE=/var/run/$NAME.pid
+DAEMON={{ PARENT_DIR }}/angular2-flask-demo/demo_api/bin/uwsgi
+DAEMON_OPTS="--ini {{ PARENT_DIR }}/angular2-flask-demo/demo_api/uwsgi.ini"
+DAEMON_LOG={{ LOG_DIR }}/demo_api.log
+
+export PATH="${PATH:+$PATH:}/usr/sbin:/sbin"
+export PYTHONPATH="{{ PARENT_DIR }}:{{ PARENT_DIR }}/angular2-flask-demo/demo_api"
+export DEMOAPPHOME={{ PARENT_DIR }}/angular2-flask-demo/demo_api
+
+case "$1" in
+  start)
+    echo -n "Starting daemon: "$NAME
+    start-stop-daemon --start\
+                      --quiet\
+                      --chuid $USER\
+                      --make-pidfile\
+                      --pidfile $PIDFILE\
+                      --background\
+                      --exec /bin/bash -- -c "$DAEMON $DAEMON_OPTS >> $DAEMON_LOG 2>&1"
+    echo "."
+    ;;
+  stop)
+    echo -n "Stopping daemon: "$NAME
+    # uWSGI has documented issues being stopped using PID file (leaves zombie
+    # child processes), so we schedule a SIGKILL with no wait time instead.
+    start-stop-daemon --stop --quiet --oknodo --retry=0/0/KILL/0 --exec $DAEMON
+    echo "."
+    ;;
+  restart)
+    echo -n "Restarting daemon: "$NAME
+    $0 stop; sleep 0.1; $0 start
+    echo "."
+    ;;
+
+  *)
+    echo "Usage: service demo_api {start|stop|restart}"
+    exit 1
+esac
+
+exit 0
